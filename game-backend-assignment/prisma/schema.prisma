@@ -1,0 +1,65 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // מחרוזת החיבור נלקחת מקובץ ה-.env
+}
+
+// --- Enums ---
+// הגדרת הערכים הקבועים עבור סטטוס המשחק ותפקיד המשתתף 
+
+enum GameStatus {
+  Waiting
+  Live
+  Finished
+}
+
+enum ParticipantRole {
+  Player
+  Spectator
+}
+
+// --- Models ---
+
+// מודל User: מייצג משתמש במערכת
+model User {
+  id                Int               @id @default(autoincrement())
+  username          String            @unique // שם משתמש ייחודי
+  createdAt         DateTime          @default(now())
+  
+  // קשר One-to-Many לטבלת המשתתפים
+  gameParticipations GameParticipant[]
+}
+
+// מודל Game: ישות המייצגת משחק
+model Game {
+  id        Int               @id @default(autoincrement())
+  status    GameStatus        @default(Waiting) // סטטוס התחלתי הוא Waiting [cite: 16, 26]
+  createdAt DateTime          @default(now())
+  
+  // קשר One-to-Many לטבלת המשתתפים
+  participants GameParticipant[]
+}
+
+//מודל GameParticipant: טבלת קשר (Join Table)
+// מנהלת את החיבור בין משתמשים למשחקים (Many-to-Many)
+model GameParticipant {
+  id        Int             @id @default(autoincrement())
+  role      ParticipantRole @default(Player) // תפקיד המשתתף (ברירת מחדל Player)
+  score     Int             @default(0)      // ניקוד המשתתף במשחק 
+  joinedAt  DateTime        @default(now())
+
+  // קשר למשתמש
+  userId    Int
+  user      User            @relation(fields: [userId], references: [id])
+
+  // קשר למשחק
+  gameId    Int
+  game      Game            @relation(fields: [gameId], references: [id])
+
+  // אילוץ ייחודיות (Constraint): מונע מצב שבו משתמש נרשם לאותו משחק יותר מפעם אחת 
+  @@unique([userId, gameId])
+}
