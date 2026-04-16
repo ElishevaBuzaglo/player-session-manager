@@ -27,10 +27,8 @@ To run this project locally, ensure you have Docker installed and follow these s
    ```bash
    git clone <YOUR_REPOSITORY_URL>
    cd player-session-manager
-   
-2.**Start the system:**
+2. **Start the system:**
    docker-compose up --build
-   
 3. **What to expect:**
    - A PostgreSQL database container will start.
    - Database migrations will be applied automatically.
