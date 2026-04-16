@@ -21,20 +21,23 @@ A professional backend service implementation for managing player sessions and a
 - `Dockerfile` & `docker-compose.yml` - Container orchestration and setup.
 
 ## 🏃 How to Run
-To run this project locally, ensure you have Docker installed and follow these steps:
+To run this project locally, ensure you have Docker and Docker Compose installed, then follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone <YOUR_REPOSITORY_URL>
+   git clone https://github.com/ElishevaBuzaglo/player-session-manager.git
    cd player-session-manager
-2. **Start the system:**
+2. **Start the environment:**
    ```bash
    docker-compose up --build
 3. **What to expect:**
-- A PostgreSQL database container will start.
-- Database migrations will be applied automatically.
-- The main script will run, creating a test user and registering them for an activity.
-- Success or error messages will be printed directly to your terminal.
+   - **Infrastructure:** A dedicated PostgreSQL database container initializes.
+   - **Database Synchronization:** Prisma automatically applies the schema and syncs models with the database.
+   - **Automated Demo:** The `main.js` script executes a core business flow: creating a test user and attempting to register them for a specific activity session.
+   - **Live Logging:** Execution results, success confirmations, and any handled errors are printed directly to your terminal.
 
-## 🧪 Consistency Testing
-The system is built to handle duplicate requests. If you run docker-compose up a second time, the service will identify that the player is already registered for that specific session and return a clear, handled error message instead of crashing.
+## 🧪 Consistency & Error Handling
+The system is architected to prioritize **data integrity**:
+- **Idempotency:** The service is designed to handle duplicate requests gracefully.
+- **Constraint Validation:** The system leverages PostgreSQL unique constraints to identify if a player is already registered.
+- **Handled Response:** If you run `docker-compose up` a second time, the service will identify the existing registration and return a clear, handled error message instead of crashing, demonstrating robust business logic.
