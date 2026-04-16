@@ -35,6 +35,6 @@ To run this project locally, ensure you have Docker installed and follow these s
    - Database migrations will be applied automatically.
    - The main script will run, creating a test user and registering them for an activity.
    - Success or error messages will be printed directly to your terminal.
-   
-##🧪 Consistency Testing
+
+## 🧪 Consistency Testing
 The system is built to handle duplicate requests. If you run docker-compose up a second time, the service will identify that the player is already registered for that specific session and return a clear, handled error message instead of crashing.
