@@ -24,22 +24,17 @@ A professional backend service implementation for managing player sessions and a
 To run this project locally, ensure you have Docker installed and follow these steps:
 
 1. **Clone the repository:**
-   ```bash
    git clone <YOUR_REPOSITORY_URL>
    cd player-session-manager
-Start the system:
 
-Bash
-docker-compose up --build
-What to expect:
+2. **Start the system:**
+   docker-compose up --build
 
-A PostgreSQL database container will start.
+3. **What to expect:**
+   - A PostgreSQL database container will start.
+   - Database migrations will be applied automatically.
+   - The main script will run, creating a test user and registering them for an activity.
+   - Success or error messages will be printed directly to your terminal.
 
-Database migrations will be applied automatically.
-
-The main script will run, creating a test user and registering them for an activity.
-
-Success or error messages will be printed directly to your terminal.
-
-🧪 Consistency Testing
-The system is built to handle duplicate requests. If you run docker-compose up a second time, the service will identify that the player is already registered for that specific session and return a clear, handled error message instead of crashing.
+## 🧪 Consistency Testing
+The system is built to handle duplicate requests. If you run `docker-compose up` a second time, the service will identify that the player is already registered for that specific session and return a clear, handled error message instead of crashing.
